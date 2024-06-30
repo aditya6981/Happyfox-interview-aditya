@@ -4,5 +4,4 @@ __pycache__
 emails.db
 emails_test.db
 db_models/__pycache__/*.pyc
-db_models/email_test.py
-db_models/email.py
+
