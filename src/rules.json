@@ -1,0 +1,48 @@
+[
+    {
+        "predicate": "all",
+        "conditions": [
+            {"field": "subject", "predicate": "contains", "value": "interview"},
+            {"field": "sender", "predicate": "contains", "value": "adik170698@gmail.com"},
+            {"field": "received_date", "predicate": "less_than_days", "value": "2"}
+        ],
+        "actions": [
+            {"action_type": "read_status", "value": "read"},
+            {"action_type": "mailbox", "value": "inbox"}
+        ]
+    },
+    {
+        "predicate": "any",
+        "conditions": [
+            {"field": "subject", "predicate": "contains", "value": "newsletter"},
+            {"field": "sender", "predicate": "contains", "value": "test@gmail.com"},
+            {"field": "received_date", "predicate": "greater_than_days", "value": "30"}
+        ],
+        "actions": [
+            {"action_type": "read_status", "value": "unread"},
+            {"action_type": "mailbox", "value": "archive"}
+        ]
+    },
+    {
+        "predicate": "all",
+        "conditions": [
+            {"field": "subject", "predicate": "equals", "value": "meeting"},
+            {"field": "received_date", "predicate": "less_than_days", "value": "7"}
+        ],
+        "actions": [
+            {"action_type": "read_status", "value": "read"},
+            {"action_type": "mailbox", "value": "important"}
+        ]
+    },
+    {
+        "predicate": "any",
+        "conditions": [
+            {"field": "subject", "predicate": "does_not_contain", "value": "promo"},
+            {"field": "sender", "predicate": "equals", "value": "admin@happyfox-interview.com"}
+        ],
+        "actions": [
+            {"action_type": "read_status", "value": "read"},
+            {"action_type": "mailbox", "value": "work"}
+        ]
+    }
+]
