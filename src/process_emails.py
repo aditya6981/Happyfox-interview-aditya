@@ -85,6 +85,7 @@ def apply_rules():
 
     print("Total Emails Processed : ", len(emails))
 
+
 if __name__ == "__main__":
     apply_rules()
     print("Rules are applied to the DB records successfully!")
