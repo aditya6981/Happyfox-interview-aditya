@@ -40,6 +40,8 @@ def fetch_emails(gmail_service, session):
 
         email_list.append(email_data)
 
+    print("Total Emails Fetched : ", len(email_list))
+
     save_emails(session, email_list, Email)
     session.commit()
 

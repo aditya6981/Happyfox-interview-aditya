@@ -84,6 +84,7 @@ def apply_rules():
             if evaluate_conditions(email, rule["conditions"], rule["predicate"]):
                 process_email(email, rule["actions"])
 
+    print("Total Emails Processed : ", len(emails))
 
 if __name__ == "__main__":
     apply_rules()
