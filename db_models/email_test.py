@@ -19,7 +19,7 @@ class Email(Base):
     """
     __tablename__ = "emails"
     id = Column(Integer, primary_key=True)  # Primary Key
-    message_id = Column(String)
+    message_id = Column(String, unique=True)
     sender = Column(String)
     recipient = Column(String)
     subject = Column(String)
