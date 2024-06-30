@@ -52,3 +52,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+    print("Emails fetched and saved in DB successfully !")
