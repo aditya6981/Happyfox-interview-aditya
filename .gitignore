@@ -1,6 +1,6 @@
 env
 .DS_Store
-.pytest_cache
 __pycache__
 emails.db
 emails_test.db
+db_models/__pycache__/*.pyc
