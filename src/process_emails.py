@@ -27,7 +27,6 @@ def process_email(email, actions, session=None):
 
 
 def apply_predicate(email, condition):
-    print(email.__dict__)
     field_value = getattr(email, condition["field"])
     predicate = condition["predicate"]
     conditional_value = condition["value"]
