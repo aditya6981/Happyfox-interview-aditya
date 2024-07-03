@@ -169,8 +169,8 @@ Each condition has the following keys:
   - **Possible Values**:
     - `contains`: Checks if the field contains a specific value.
     - `equals`: Checks if the field is exactly equal to a specific value.
-    - `starts_with`: Checks if the field starts with a specific value.
-    - `ends_with`: Checks if the field ends with a specific value.
+    - `does_not_contain`: Checks if the field does not contain a specific value. 
+    - `does_not_equal`: Checks if the field is not equal to a specific value.
     - `less_than_days`: Checks if the date is less than a specific number of days ago.
     - `greater_than_days`: Checks if the date is greater than a specific number of days ago.
     - `less_than_months`: Checks if the date is less than a specific number of months ago.
@@ -185,10 +185,6 @@ Each action has the following keys:
   - **Possible Values**:
     - `read_status`: Updates the read status of the email.
     - `mailbox`: Moves the email to a specific mailbox.
-    - `delete`: Deletes the email.
-    - `mark_important`: Marks the email as important.
-    - `move_message`: Moves the email to a specified folder.
-    - `update_read_status`: Updates the read status of the email.
 - **value**: The value associated with the action.
   - **Possible Values**:
     - For `read_status`:
