@@ -200,6 +200,38 @@ Each action has the following keys:
       - `spam`: Moves the email to the spam folder.
       - `trash`: Moves the email to the trash.
 
+# TEST CASES
+```bash
+python tests/
+```
+
+Total Test Cases : 5
+
+1. **Save Emails**
+   * Asserts if email records are getting saved in DB successfully
+   * `file_name` : src/test_save_emails.py
+   * `module` : test_save_emails
+
+2. **Fetch Emails**
+   * Asserts if email records are fetched using gmail api and saved in DB successfully
+   * `file_name` : src/test_fetch_emails.py
+   * `module` : test_email_fetch
+  
+3. **Apply Predicates**
+   * Asserts if predicates are applied as expected for the sample email and rules defined in the code. 
+   * `file_name` : src/test_process_emails.py
+   * `module` : test_apply_predicate
+  
+4. **Apply Conditions**
+   * Asserts if email records are filtered and actions are taken as expected for the sample email and rules defined in the code. 
+   * `file_name` : src/test_process_emails.py
+   * `module` : test_apply_rules
+     
+5. **Process Emails**
+   * Asserts if email records are uodated in DB as expected for the sample email records and rules defined in the code. 
+   * `file_name` : src/test_process_emails.py
+   * `module` : test_process_action
+
     
 
    
