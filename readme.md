@@ -90,25 +90,115 @@ HAPPYFOX-INTERVIEW-ADITYA/
 # Usage
 
 1. **Fetch and Save Emails**
-    - This script will fetch the emails from gmail and save the emails in DB.
+
+    ```bash
+    python src/fetch_emails.py
+    ```   
+    * This script will fetch the emails from gmail and save the emails in DB.
      DB schema is defined in `db_models/email.py`
-        RUN :
-        ```bash
-        python src/fetch_emails.py
-        ```
 
-2. **Process Emails**
-This script will process and update the email records in DB as per
-the rules defined in `src/rules.json`.
-these rules can be modified as per user preferences.
 
-   RUN :
+
+3. **Process Emails**
     ```bash
     python src/process_emails.py
     ```
+    - This script will process and update the email records in DB as per
+    the rules defined in `src/rules.json`.
+    these rules can be modified as per user preferences.
+
+
+
 
 # Rules Configuration
 
+- Example Rules JSON
+`src/rules.json`  
+```json
+[
+    {
+        "predicate": "all",
+        "conditions": [
+            {"field": "subject", "predicate": "contains", "value": "interview"},
+            {"field": "sender", "predicate": "contains", "value": "adik170698@gmail.com"},
+            {"field": "received_date", "predicate": "less_than_days", "value": "2"}
+        ],
+        "action": [
+            {"action_type": "read_status", "value": "read"},
+            {"action_type": "mailbox", "value": "inbox"}
+        ]
+    },
+    {
+        "predicate": "any",
+        "conditions": [
+            {"field": "subject", "predicate": "contains", "value": "newsletter"},
+            {"field": "sender", "predicate": "contains", "value": "marketing@example.com"},
+            {"field": "received_date", "predicate": "greater_than_days", "value": "30"}
+        ],
+        "action": [
+            {"action_type": "read_status", "value": "unread"},
+            {"action_type": "mailbox", "value": "archive"}
+        ]
+    }
+]
+```
+  
+
+
+Each rule has the following structure:
+
+- **predicate**: Defines how conditions are evaluated.
+  - **Possible Values**:
+    - `all`: All conditions must be met.
+    - `any`: Any of the conditions must be met.
+- **conditions**: A list of conditions that must be evaluated.
+- **action**: A list of actions to be taken if the conditions are met.
+
+### Conditions
+
+Each condition has the following keys:
+
+- **field**: The field of the email to be evaluated.
+  - **Possible Values**:
+    - `subject`: The subject of the email.
+    - `sender`: The sender's email address.
+    - `recipient`: The recipient's email address.
+    - `received_date`: The date the email was received.
+    - `body`: The body content of the email.
+- **predicate**: The condition to be applied to the field.
+  - **Possible Values**:
+    - `contains`: Checks if the field contains a specific value.
+    - `equals`: Checks if the field is exactly equal to a specific value.
+    - `starts_with`: Checks if the field starts with a specific value.
+    - `ends_with`: Checks if the field ends with a specific value.
+    - `less_than_days`: Checks if the date is less than a specific number of days ago.
+    - `greater_than_days`: Checks if the date is greater than a specific number of days ago.
+    - `less_than_months`: Checks if the date is less than a specific number of months ago.
+    - `greater_than_months`: Checks if the date is greater than a specific number of months ago.
+- **value**: The value to be compared against the field.
+
+### Actions
+
+Each action has the following keys:
+
+- **action_type**: The type of action to be performed.
+  - **Possible Values**:
+    - `read_status`: Updates the read status of the email.
+    - `mailbox`: Moves the email to a specific mailbox.
+    - `delete`: Deletes the email.
+    - `mark_important`: Marks the email as important.
+    - `move_message`: Moves the email to a specified folder.
+    - `update_read_status`: Updates the read status of the email.
+- **value**: The value associated with the action.
+  - **Possible Values**:
+    - For `read_status`:
+      - `read`: Marks the email as read.
+      - `unread`: Marks the email as unread.
+    - For `mailbox`:
+      - `inbox`: Moves the email to the inbox.
+      - `archive`: Moves the email to the archive.
+      - `spam`: Moves the email to the spam folder.
+      - `trash`: Moves the email to the trash.
 
     
 
