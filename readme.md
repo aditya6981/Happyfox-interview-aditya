@@ -77,7 +77,7 @@ HAPPYFOX-INTERVIEW-ADITYA/
 * Click on "Create Credentials" and select "OAuth client ID".
 * Configure the consent screen if prompted.
 * Select "Desktop app" and create the credentials.
-* Download the json file and place it in the path google_apis/credentials.json .
+* Download the json file and place it in the path `google_apis/credentials.json` .
 * run
     ```bash
     python google_apis/gmail_authentication.py
