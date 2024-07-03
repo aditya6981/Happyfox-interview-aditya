@@ -2,6 +2,7 @@ import base64
 import datetime
 
 from google_apis.gmail_authentication import authenticate
+from google_apis.apis import list_messages, get_message
 from db_models.email import Session, Email
 
 from src.save_email import save_emails
@@ -10,16 +11,13 @@ from src.constants import ACCEPTED_FOLDER_LABELS
 import traceback
 
 
-def fetch_emails(gmail_service, session):
+def fetch_emails(gmail_creds, session):
     """
     Function to Fetch emails from Gmail and store them in the database.
     """
 
-    # Fetch the list of emails using gmail api service
-    results = gmail_service.users().messages().list(userId="",
-                                                    maxResults=10).execute()
-
-    messages = results.get("messages", [])
+    # Fetch the list of emails using gmail api servic
+    messages = list_messages(gmail_creds)
     email_list = []
     try:
         """
@@ -27,7 +25,7 @@ def fetch_emails(gmail_service, session):
         save in DB
         """
         for message in messages:
-            msg = gmail_service.users().messages().get(userId="me", id=message["id"]).execute()     
+            msg = get_message(gmail_creds, message["id"]) 
             payload = msg["payload"]
             headers = payload["headers"]
             labels = msg["labelIds"]
@@ -81,13 +79,14 @@ def fetch_emails(gmail_service, session):
 
 if __name__ == "__main__":
     # authenticate gmail and return gmail service api
-    gmail_service = authenticate()
+    gmail_creds = authenticate()
+    print(gmail_creds)
 
     # Create a DB session to store data
     session = Session()
-    status, ingested_count, total_saved_emails = fetch_emails(gmail_service,
+    status, ingested_count, total_saved_emails = fetch_emails(gmail_creds,
                                                               session)
-    print("Status :",status)
+    print("Status :", status)
     print("New Emails fetched from Gmail : ", ingested_count)
     print("Total Emails in DB:", total_saved_emails)
     print("Emails fetched and saved to DB successfully !")

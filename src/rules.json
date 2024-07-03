@@ -50,7 +50,7 @@
         ],
         "actions": [
             {"action_type": "read_status", "value": "read"},
-            {"action_type": "mailbox", "value": "important"}
+            {"action_type": "mailbox", "value": "spam"}
         ]
     }
 ]

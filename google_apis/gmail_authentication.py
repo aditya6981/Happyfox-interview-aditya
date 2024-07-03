@@ -14,10 +14,6 @@ SCOPES = [
 TOKEN_PATH = os.path.join(CURRENT_BASE_PATH, "token.pickle")
 CREDENTIALS_PATH = os.path.join(CURRENT_BASE_PATH, "credentials.json")
 
-def get_labels(service):
-    results = service.users().labels().list(userId='me').execute()
-    labels = results.get('labels', [])
-    return labels
 
 def authenticate():
     """
@@ -50,11 +46,10 @@ def authenticate():
         with open(TOKEN_PATH, "wb") as token:
             pickle.dump(creds, token)
 
-    # Initiate the gmail service and return using the token
-    service = build("gmail", "v1", credentials=creds)
-    return service
+    # return token for authentication
+    return creds
 
 
 if __name__ == "__main__":
-    service = authenticate()
+    creds = authenticate()
     print("Authentication successful!")

@@ -8,7 +8,7 @@ class TestFetchEmails(unittest.TestCase):
 
     def setUp(self):
         # Initialising DB and Gmail services
-        self.gmail_service = authenticate()
+        self.gmail_creds = authenticate()
         self.session = Session()
 
     def test_email_fetch(self):
@@ -17,7 +17,7 @@ class TestFetchEmails(unittest.TestCase):
         DB successfully
         """
 
-        status, _, _ = fetch_emails(self.gmail_service,
+        status, _, _ = fetch_emails(self.gmail_creds,
                                     self.session)
         self.assertTrue(status)
 
