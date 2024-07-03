@@ -52,11 +52,6 @@ def authenticate():
 
     # Initiate the gmail service and return using the token
     service = build("gmail", "v1", credentials=creds)
-    labels = get_labels(service)
-    label_mapper = {}
-    for label in labels:
-        print(f"Label ID: {label['id']}, Label Name: {label['name']}")
-        label_mapper[label['id']] = 
     return service
 
 
