@@ -66,8 +66,6 @@ HAPPYFOX-INTERVIEW-ADITYA/
     │
     ├── readme.md
     ├── requirements.txt
-    ├── rules.json
-    └── README.md
 ```
 
 # Setup
