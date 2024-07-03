@@ -4,4 +4,5 @@ __pycache__
 emails.db
 emails_test.db
 db_models/__pycache__/*.pyc
+token.pickle
 
