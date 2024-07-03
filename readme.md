@@ -115,6 +115,8 @@ HAPPYFOX-INTERVIEW-ADITYA/
 ```json
 [
     {
+        "name: : "Rule 1",
+        "description" : "Sample Rule",
         "predicate": "all",
         "conditions": [
             {"field": "subject", "predicate": "contains", "value": "interview"},
@@ -127,6 +129,8 @@ HAPPYFOX-INTERVIEW-ADITYA/
         ]
     },
     {
+        "name: : "Rule 2",
+        "description" : "Sample Rule",
         "predicate": "any",
         "conditions": [
             {"field": "subject", "predicate": "contains", "value": "newsletter"},
@@ -151,7 +155,7 @@ Each rule has the following structure:
 - **conditions**: A list of conditions that must be evaluated.
 - **action**: A list of actions to be taken if the conditions are met.
 - **name**: Name of the Rule.
-- **action**: A Description for the defined Rule.
+- **description**: A Description for the defined Rule.
 
 ### Conditions
 
