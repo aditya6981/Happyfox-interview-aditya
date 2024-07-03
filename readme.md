@@ -196,7 +196,7 @@ Each action has the following keys:
 
 # TEST CASES
 ```bash
-python tests/
+pytest tests/
 ```
 
 Total Test Cases : 5
