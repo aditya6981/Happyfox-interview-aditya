@@ -7,11 +7,17 @@ from googleapiclient.discovery import build
 
 CURRENT_BASE_PATH = os.path.dirname(os.path.abspath(__file__))
 
-SCOPES = ["https://www.googleapis.com/auth/gmail.readonly"]
+SCOPES = [
+          'https://www.googleapis.com/auth/gmail.modify'
+          ]
 
 TOKEN_PATH = os.path.join(CURRENT_BASE_PATH, "token.pickle")
 CREDENTIALS_PATH = os.path.join(CURRENT_BASE_PATH, "credentials.json")
 
+def get_labels(service):
+    results = service.users().labels().list(userId='me').execute()
+    labels = results.get('labels', [])
+    return labels
 
 def authenticate():
     """
@@ -46,6 +52,11 @@ def authenticate():
 
     # Initiate the gmail service and return using the token
     service = build("gmail", "v1", credentials=creds)
+    labels = get_labels(service)
+    label_mapper = {}
+    for label in labels:
+        print(f"Label ID: {label['id']}, Label Name: {label['name']}")
+        label_mapper[label['id']] = 
     return service
 
 

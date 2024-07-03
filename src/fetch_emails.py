@@ -5,6 +5,9 @@ from google_apis.gmail_authentication import authenticate
 from db_models.email import Session, Email
 
 from src.save_email import save_emails
+from src.constants import ACCEPTED_FOLDER_LABELS
+
+import traceback
 
 
 def fetch_emails(gmail_service, session):
@@ -38,8 +41,16 @@ def fetch_emails(gmail_service, session):
                     if "data" in part["body"]:
                         body = base64.urlsafe_b64decode(
                             part["body"]["data"]).decode("utf-8")
+            print("Labels :", labels)
 
-            # Creating email record 
+            read_status = 'unread' if 'UNREAD' in labels else 'read'
+
+            for label in labels:
+                if label in ACCEPTED_FOLDER_LABELS:
+                    mailbox = label.lower()
+                    break
+
+            # Creating email record
             email_data = {
                 "message_id": message["id"],
                 "sender": next(header["value"] for header in headers if header["name"] == "From"),
@@ -47,8 +58,8 @@ def fetch_emails(gmail_service, session):
                 "subject": next(header["value"] for header in headers if header["name"] == "Subject"),
                 "body": body,
                 "received_date": datetime.datetime.fromtimestamp(int(msg["internalDate"]) / 1000),
-                "read_status": labels[0],
-                "mailbox": labels[2]
+                "read_status": read_status,
+                "mailbox": mailbox
             }
 
             print("Email Sender, Subject:", email_data["sender"], email_data["recipient"])
@@ -59,7 +70,8 @@ def fetch_emails(gmail_service, session):
         saved_emails = session.query(Email).all()
         session.commit()
 
-    except Exception:
+    except Exception as e:
+        print(traceback.format_exc())
         saved_emails = session.query(Email).all()
         ingested_count = 0
         return False, ingested_count, len(saved_emails)
@@ -75,7 +87,7 @@ if __name__ == "__main__":
     session = Session()
     status, ingested_count, total_saved_emails = fetch_emails(gmail_service,
                                                               session)
-
+    print("Status :",status)
     print("New Emails fetched from Gmail : ", ingested_count)
     print("Total Emails in DB:", total_saved_emails)
     print("Emails fetched and saved to DB successfully !")

@@ -141,7 +141,7 @@ HAPPYFOX-INTERVIEW-ADITYA/
 ]
 ```
   
-  
+
 Each rule has the following structure:
 
 - **predicate**: Defines how conditions are evaluated.
@@ -191,9 +191,9 @@ Each action has the following keys:
       - `unread`: Marks the email as unread.
     - For `mailbox`:
       - `inbox`: Moves the email to the inbox.
-      - `archive`: Moves the email to the archive.
       - `spam`: Moves the email to the spam folder.
       - `trash`: Moves the email to the trash.
+      - `important`: Moves the email to the important folder.
 
 # TEST CASES
 ```bash

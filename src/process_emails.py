@@ -4,6 +4,7 @@ import json
 from datetime import datetime
 
 from db_models.email import Session, Email
+from google_apis.gmail_authentication import authenticate
 
 CURRENT_BASE_PATH = os.path.dirname(os.path.abspath(__file__))
 
@@ -13,7 +14,7 @@ def load_rules(path):
         return json.load(file)
 
 
-def process_email(email, actions, session=None):
+def process_email(email, actions, session=None, gmail_service=None):
     """
         Function to apply the actions mentioned in rules.json
         on the email records saved in db and commit
@@ -23,9 +24,32 @@ def process_email(email, actions, session=None):
 
     for action in actions:
         if action["action_type"] == "read_status":
+            current_read_status = email.read_status
             email.read_status = action["value"]
-        elif action["action_type"] == "mailbox":
+            if gmail_service:
+                if action["value"] == "unread":
+                    gmail_service.users().messages().modify(userId='me',
+                                                            id=email.message_id,
+                                                            body={
+                                                                'addLabelIds': [current_read_status.upper()]
+                                                            }).execute()
+                else:
+                    gmail_service.users().messages().modify(userId='me',
+                                                            id=email.message_id,
+                                                            body={
+                                                                'removeLabelIds': [current_read_status.upper()]
+                                                                }).execute()                  
+
+        elif action["action_type"] == "mailbox":   
+            current_mailbox= email.mailbox     
             email.mailbox = action["value"]
+            if gmail_service:
+                gmail_service.users().messages().modify(userId='me',
+                                                        id=email.message_id,
+                                                        body={
+                                                                'removeLabelIds': [current_mailbox.upper()],
+                                                                'addLabelIds': [action["value"].upper()]
+                                                                }).execute()
     session.commit()
 
 
@@ -42,7 +66,7 @@ def apply_predicate(email, condition):
     if isinstance(field_value, str):
         field_value = field_value.lower()
         conditional_value = conditional_value.lower()
-   
+  
         if predicate == "contains":
             return conditional_value in field_value
         elif predicate == "does_not_contain":
@@ -84,7 +108,7 @@ def evaluate_conditions(email, conditions, overall_predicate):
     return False
 
 
-def apply_rules():
+def apply_rules(gmail_service=None):
     """
         Function to apply to rules defined in rules.json on the
         email records saved in DB
@@ -103,7 +127,10 @@ def apply_rules():
             if evaluate_conditions(email,
                                    rule["conditions"],
                                    rule["predicate"]):
-                process_email(email, rule["actions"])
+                process_email(email=email,
+                              actions=rule["actions"],
+                              gmail_service=gmail_service)
+
                 print("Email ID, Rule applied: ", email.id, rule["name"])
                 emails_processed.append(email.id)
     emails_processed = list(set(emails_processed))
@@ -111,5 +138,6 @@ def apply_rules():
 
 
 if __name__ == "__main__":
-    apply_rules()
+    gmail_service = authenticate()
+    apply_rules(gmail_service)
     print("Rules are applied to the DB records successfully!")

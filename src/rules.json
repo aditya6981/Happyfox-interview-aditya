@@ -24,7 +24,7 @@
         ],
         "actions": [
             {"action_type": "read_status", "value": "unread"},
-            {"action_type": "mailbox", "value": "archive"}
+            {"action_type": "mailbox", "value": "trash"}
         ]
     },
     {
@@ -50,7 +50,7 @@
         ],
         "actions": [
             {"action_type": "read_status", "value": "read"},
-            {"action_type": "mailbox", "value": "work"}
+            {"action_type": "mailbox", "value": "important"}
         ]
     }
 ]

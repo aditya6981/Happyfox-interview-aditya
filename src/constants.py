@@ -1,0 +1,6 @@
+ACCEPTED_FOLDER_LABELS = [
+    "INBOX",
+    "IMPORTANT",
+    "TRASH",
+    "SPAM"
+]
