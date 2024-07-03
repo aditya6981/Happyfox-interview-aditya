@@ -95,6 +95,7 @@ def apply_rules():
     rules = load_rules(rules_path)
 
     emails = session.query(Email).all()
+    emails_processed = 0
 
     # Iterating each email record in db and applying actions if valid
     for email in emails:
@@ -103,8 +104,10 @@ def apply_rules():
                                    rule["conditions"],
                                    rule["predicate"]):
                 process_email(email, rule["actions"])
+                print("Email ID, Actions taken: ", email.id, rule["actions"])
+                emails_processed += 1
 
-    print("Total Emails Processed : ", len(emails))
+    print("Total Emails Processed : ", emails_processed)
 
 
 if __name__ == "__main__":

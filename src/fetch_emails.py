@@ -50,6 +50,8 @@ def fetch_emails(gmail_service, session):
                 "read_status": labels[0],
                 "mailbox": labels[2]
             }
+
+            print("Email Sender, Subject:", email_data["sender"], email_data["recipient"])
             email_list.append(email_data)
 
         # Save the email records in DB and commit
