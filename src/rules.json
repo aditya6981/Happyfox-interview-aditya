@@ -1,5 +1,7 @@
 [
     {
+        "name": "rule 1",
+        "description": "rule 1",
         "predicate": "all",
         "conditions": [
             {"field": "subject", "predicate": "contains", "value": "interview"},
@@ -12,6 +14,8 @@
         ]
     },
     {
+        "name": "rule 2",
+        "description": "rule 2",
         "predicate": "any",
         "conditions": [
             {"field": "subject", "predicate": "contains", "value": "newsletter"},
@@ -24,6 +28,8 @@
         ]
     },
     {
+        "name": "rule 3",
+        "description": "rule 3",
         "predicate": "all",
         "conditions": [
             {"field": "subject", "predicate": "equals", "value": "meeting"},
@@ -35,6 +41,8 @@
         ]
     },
     {
+        "name": "rule 4",
+        "description": "rule 4",
         "predicate": "any",
         "conditions": [
             {"field": "subject", "predicate": "does_not_contain", "value": "promo"},

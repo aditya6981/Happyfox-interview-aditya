@@ -141,8 +141,7 @@ HAPPYFOX-INTERVIEW-ADITYA/
 ]
 ```
   
-
-
+  
 Each rule has the following structure:
 
 - **predicate**: Defines how conditions are evaluated.
@@ -151,6 +150,8 @@ Each rule has the following structure:
     - `any`: Any of the conditions must be met.
 - **conditions**: A list of conditions that must be evaluated.
 - **action**: A list of actions to be taken if the conditions are met.
+- **name**: Name of the Rule.
+- **action**: A Description for the defined Rule.
 
 ### Conditions
 
