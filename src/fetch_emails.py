@@ -9,25 +9,37 @@ from src.save_email import save_emails
 
 def fetch_emails(gmail_service, session):
     """
-    Fetch emails from Gmail and store them in the database.
+    Function to Fetch emails from Gmail and store them in the database.
     """
-    results = gmail_service.users().messages().list(userId="", maxResults=10).execute()  # Fetch the list of emails
+
+    # Fetch the list of emails using gmail api service
+    results = gmail_service.users().messages().list(userId="",
+                                                    maxResults=10).execute()
+
     messages = results.get("messages", [])
     email_list = []
     try:
+        """
+        Iterate the email messages in response and create email records to 
+        save in DB
+        """
         for message in messages:
-            msg = gmail_service.users().messages().get(userId="me", id=message["id"]).execute()
+            msg = gmail_service.users().messages().get(userId="me", id=message["id"]).execute()     
             payload = msg["payload"]
             headers = payload["headers"]
             labels = msg["labelIds"]
 
+            # Decoding email body from base64 format to normal strings
             if "data" in msg["payload"]["body"]:
-                body = base64.urlsafe_b64decode(msg["payload"]["body"]["data"]).decode("utf-8")
+                body = base64.urlsafe_b64decode(
+                    msg["payload"]["body"]["data"]).decode("utf-8")           
             else:
                 for part in msg["payload"]["parts"]:
                     if "data" in part["body"]:
-                        body = base64.urlsafe_b64decode(part["body"]["data"]).decode("utf-8")
+                        body = base64.urlsafe_b64decode(
+                            part["body"]["data"]).decode("utf-8")
 
+            # Creating email record 
             email_data = {
                 "message_id": message["id"],
                 "sender": next(header["value"] for header in headers if header["name"] == "From"),
@@ -38,8 +50,9 @@ def fetch_emails(gmail_service, session):
                 "read_status": labels[0],
                 "mailbox": labels[2]
             }
-
             email_list.append(email_data)
+
+        # Save the email records in DB and commit
         ingested_count = save_emails(session, email_list, Email)
         saved_emails = session.query(Email).all()
         session.commit()
@@ -53,7 +66,10 @@ def fetch_emails(gmail_service, session):
 
 
 if __name__ == "__main__":
+    # authenticate gmail and return gmail service api
     gmail_service = authenticate()
+
+    # Create a DB session to store data
     session = Session()
     status, ingested_count, total_saved_emails = fetch_emails(gmail_service,
                                                               session)

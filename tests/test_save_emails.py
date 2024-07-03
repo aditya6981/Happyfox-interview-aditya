@@ -16,9 +16,8 @@ Base = declarative_base()
 
 class TestSaveEmails(unittest.TestCase):
 
-
     def setUp(self):
-
+        # Initialising DB services
         self.db_engine = create_engine("sqlite:///emails_test.db")
         Base.metadata.create_all(self.db_engine)
         self.Session = sessionmaker(bind=self.db_engine)
@@ -35,7 +34,9 @@ class TestSaveEmails(unittest.TestCase):
         os.remove("emails_test.db")
 
     def test_save_emails(self):
-
+        """
+         Asserts if email records are getting saved in DB successfully
+        """
         emails = [
             {
                 "sender": "example1@example.com",

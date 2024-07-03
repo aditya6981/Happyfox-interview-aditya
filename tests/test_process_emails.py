@@ -19,6 +19,7 @@ Base = declarative_base()
 class TestProcessEmails(unittest.TestCase):
 
     def setUp(self):
+        # Initialising DB services
         self.db_engine = create_engine("sqlite:///emails_test.db")
         Base.metadata.create_all(self.db_engine)
         self.Session = sessionmaker(bind=self.db_engine)
@@ -56,7 +57,10 @@ class TestProcessEmails(unittest.TestCase):
         self.db_engine.dispose()
 
     def test_apply_rules(self):
-
+        """
+            Asserts if email records are filtered and actions are taken as
+            expected for the sample email and rules defined in the code.
+        """
         rules = [
             {
                 "predicate": "all",
@@ -74,7 +78,7 @@ class TestProcessEmails(unittest.TestCase):
         emails = self.session.query(Email).all()
         for email in emails:
             for rule in rules:
-                if evaluate_conditions(email, rule['conditions'], rule['predicate']):          
+                if evaluate_conditions(email, rule['conditions'], rule['predicate']):         
                     process_email(email, rule['action'])
 
         email1 = self.session.query(Email).filter_by(id=1).first()
@@ -82,6 +86,10 @@ class TestProcessEmails(unittest.TestCase):
         self.assertEqual(email1.mailbox, 'inbox')
 
     def test_apply_predicate(self):
+        """
+            Asserts if predicates are applied as expected for
+            the sample email and rules defined in the code.
+        """
         email = Email(id=1,
                       sender='example1@example.com',
                       subject='Test Email 1',
@@ -95,6 +103,10 @@ class TestProcessEmails(unittest.TestCase):
         self.assertTrue(apply_predicate(email, condition))
 
     def test_process_action(self):
+        """
+            Asserts if email records are uodated in DB as expected 
+            for the sample email records and rules defined in the code.
+        """
         email = Email(id=1,
                       sender='example1@example.com',
                       subject='Test Email 1',
