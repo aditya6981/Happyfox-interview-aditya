@@ -2,6 +2,9 @@ import requests
 
 
 def list_messages(creds):
+    """
+        Function to fetch the details of all email records
+    """
     headers = {
         'Authorization': f"Bearer {creds.token}",
         'Accept': 'application/json'
@@ -16,6 +19,9 @@ def list_messages(creds):
 
 
 def get_message(creds, message_id):
+    """
+        Function to fetch the details of an email record
+    """
     headers = {
         'Authorization': f"Bearer {creds.token}",
         'Accept': 'application/json'
@@ -30,6 +36,9 @@ def get_message(creds, message_id):
 
 
 def modify_message(creds, message_id, data):
+    """
+        Function to fetch the modify an email record
+    """
     headers = {
         'Authorization': f"Bearer {creds.token}",
         'Accept': 'application/json',
@@ -39,3 +48,4 @@ def modify_message(creds, message_id, data):
     requests.post(
         f'https://gmail.googleapis.com/gmail/v1/users/me/messages/{message_id}/modify',
         headers=headers, json=data)
+ 
