@@ -1,33 +1,33 @@
-# HappyFox Backend Assignment
+### HappyFox Backend Assignment
 
 
-# Prerequsites
+## Prerequsites
     - Python 3.x
 
-# Installation
+## Installation
 
-    1. Clone the repository:
+1. **Clone the repository:**
 
-        ```bash
-        git clone https://github.com/aditya6981/Happyfox-interview-aditya.git
-        cd Happyfox-interview-aditya
-        ```
+    ```bash
+    git clone https://github.com/aditya6981/Happyfox-interview-aditya.git
+    cd Happyfox-interview-aditya
+    ```
 
-    2. Create a virtual environment:
+2. **Create a virtual environment:**
 
-        ```bash
-        python3 -m venv env
-        source env/bin/activate
-        ```
+    ```bash
+    python3 -m venv env
+    source env/bin/activate
+    ```
 
-    3. Install the required packages
+3. **Install the required packages**
 
-        ```bash
-        pip install -r requirements.txt
-        ```
+    ```bash
+    pip install -r requirements.txt
+    ```
 
 
-# Project Structure 
+## Project Structure 
 
     ```css
     HAPPYFOX-INTERVIEW-ADITYA/
