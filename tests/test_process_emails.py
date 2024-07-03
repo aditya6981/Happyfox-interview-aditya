@@ -2,7 +2,7 @@ import unittest
 from datetime import datetime
 
 from sqlalchemy import create_engine
-from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import declarative_base
 from sqlalchemy.orm import sessionmaker
 
 from db_models.email_test import Email
@@ -31,7 +31,8 @@ class TestProcessEmails(unittest.TestCase):
                 "body": "This is a test email",
                 "received_date": datetime(2021, 8, 1),
                 "read_status": "unread",
-                "mailbox": "inbox"
+                "mailbox": "inbox",
+                "message_id": "1"
             },
             {
                 "sender": "example2@example.com",
@@ -39,7 +40,8 @@ class TestProcessEmails(unittest.TestCase):
                 "body": "This is another test email",
                 "received_date": datetime(2021, 8, 2),
                 "read_status": "unread",
-                "mailbox": "inbox"
+                "mailbox": "inbox",
+                "message_id": "2"
             }
         ]
 

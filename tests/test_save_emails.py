@@ -2,7 +2,7 @@ import unittest
 from datetime import datetime
 
 from sqlalchemy import create_engine
-from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import declarative_base
 from sqlalchemy.orm import sessionmaker
 
 from db_models.email_test import Email
@@ -14,7 +14,7 @@ import os
 Base = declarative_base()
 
 
-class TestFetchEmails(unittest.TestCase):
+class TestSaveEmails(unittest.TestCase):
 
 
     def setUp(self):
@@ -43,7 +43,8 @@ class TestFetchEmails(unittest.TestCase):
                 "body": "This is a test email",
                 "received_date": datetime(2021, 8, 1),
                 "read_status": "unread",
-                "mailbox": "inbox"
+                "mailbox": "inbox",
+                "message_id": "1"
             },
             {
                 "sender": "example2@example.com",
@@ -51,11 +52,12 @@ class TestFetchEmails(unittest.TestCase):
                 "body": "This is another test email",
                 "received_date": datetime(2021, 8, 2),
                 "read_status": "unread",
-                "mailbox": "inbox"
+                "mailbox": "inbox",
+                "message_id": "2"
             }
         ]
 
-        save_emails(self.session, emails, Email)
+        _ = save_emails(self.session, emails, Email)
         saved_emails = self.session.query(Email).all()
 
         for s in saved_emails:

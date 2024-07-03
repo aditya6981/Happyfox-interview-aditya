@@ -1,8 +1,8 @@
 import base64
 import datetime
 
-from db_models.email import Session, Email
 from google_apis.gmail_authentication import authenticate
+from db_models.email import Session, Email
 
 from src.save_email import save_emails
 
@@ -40,21 +40,24 @@ def fetch_emails(gmail_service, session):
             }
 
             email_list.append(email_data)
-        save_emails(session, email_list, Email)
+        ingested_count = save_emails(session, email_list, Email)
+        saved_emails = session.query(Email).all()
         session.commit()
 
     except Exception:
-        email_list = []
+        saved_emails = session.query(Email).all()
+        ingested_count = 0
+        return False, ingested_count, len(saved_emails)
 
-    print("Total Emails Fetched : ", len(email_list))
-
-
-def main():
-    gmail_service = authenticate()
-    session = Session()
-    fetch_emails(gmail_service, session)
+    return True, ingested_count, len(saved_emails)
 
 
 if __name__ == "__main__":
-    main()
+    gmail_service = authenticate()
+    session = Session()
+    status, ingested_count, total_saved_emails = fetch_emails(gmail_service,
+                                                              session)
+
+    print("New Emails fetched from Gmail : ", ingested_count)
+    print("Total Emails in DB:", total_saved_emails)
     print("Emails fetched and saved to DB successfully !")

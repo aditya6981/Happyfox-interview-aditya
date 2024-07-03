@@ -34,7 +34,7 @@ def apply_predicate(email, condition):
     if isinstance(field_value, str):
         field_value = field_value.lower()
         conditional_value = conditional_value.lower()
-        
+   
         if predicate == "contains":
             return conditional_value in field_value
         elif predicate == "does_not_contain":
